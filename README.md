@@ -25,6 +25,8 @@ The goal is to build a multitask learning model that can:
 - [Val_Data.xlsx](./Val_Data.xlsx)
 - [Test_Data.xlsx](./Test_Data.xlsx)
 
+> **Note**: Use **Google Colab** and set the runtime to **T4 GPU** (`Runtime > Change runtime type > Hardware accelerator > GPU (T4)`)
+
 ## 🧱 1. Importing Required Libraries
 
 We start by importing all essential libraries: PyTorch for modeling, Transformers for using HateBERT, scikit-learn for evaluation, and pandas for data manipulation.
