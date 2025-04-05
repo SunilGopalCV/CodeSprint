@@ -25,7 +25,13 @@ The goal is to build a multitask learning model that can:
 - [Val_Data.xlsx](./Val_Data.xlsx)
 - [Test_Data.xlsx](./Test_Data.xlsx)
 
-> **Note**: Use **Google Colab** and set the runtime to **T4 GPU** (`Runtime > Change runtime type > Hardware accelerator > GPU (T4)`)
+
+> **Note**:  
+> ✅ Use **Google Colab** and set the runtime to **T4 GPU**  
+> (`Runtime > Change runtime type > Hardware accelerator > GPU (T4)`)  
+> ✅ Make sure to **drag and drop the downloaded data files** into the Colab file panel (left sidebar) before running the notebook.  
+> You can access them using paths like `'./filename.csv'`
+
 
 ## 🧱 1. Importing Required Libraries
 
