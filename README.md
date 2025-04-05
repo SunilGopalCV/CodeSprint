@@ -25,8 +25,6 @@ The goal is to build a multitask learning model that can:
 - [Val_Data.xlsx](./Val_Data.xlsx)
 - [Test_Data.xlsx](./Test_Data.xlsx)
 
----
-
 ## 🧱 1. Importing Required Libraries
 
 We start by importing all essential libraries: PyTorch for modeling, Transformers for using HateBERT, scikit-learn for evaluation, and pandas for data manipulation.
@@ -40,8 +38,6 @@ from transformers import AutoTokenizer, AutoModel
 from sklearn.metrics import classification_report
 import pandas as pd
 ```
-
----
 
 ## 🧹 2. Reading and Cleaning the Dataset
 This cell:
@@ -65,8 +61,6 @@ train_df['Hate'] = train_df['Hate'].fillna(0).astype(int)
 val_df['Fake'] = val_df['Fake'].fillna(0).astype(int)
 val_df['Hate'] = val_df['Hate'].fillna(0).astype(int)
 ```
-
----
 
 ## 🔤 3. Initializing the HateBERT Tokenizer
 We use the pre-trained tokenizer from `GroNLP/hateBERT`.
@@ -97,8 +91,6 @@ class TweetDataset(Dataset):
         }
 ```
 
----
-
 ### 🧠 5. Defining the HateBERT Multitask Model
 This is a PyTorch model with two classification heads—one for each task (Fake, Hate).
 
@@ -120,8 +112,6 @@ class HateBERTMultiTask(nn.Module):
         return fake_logits, hate_logits
 ```
 
----
-
 ## 📦 6. Preparing Dataloaders
 Converts the datasets into PyTorch DataLoader objects for training and validation.
 
@@ -132,8 +122,6 @@ val_dataset = TweetDataset(val_df['Tweet'], val_df['Fake'], val_df['Hate'], toke
 train_loader = DataLoader(train_dataset, batch_size=16, shuffle=True)
 val_loader = DataLoader(val_dataset, batch_size=16)
 ```
-
----
 
 ## 🏋️‍♂️ 7. Training the Model
 This function handles the model training loop, validation, and early stopping.
@@ -186,8 +174,6 @@ def train_model(model, train_loader, val_loader, criterion, optimizer, num_epoch
                 break
 ```
 
----
-
 ## 🧪 8. Evaluation Function
 Evaluates model performance on validation set using classification reports.
 
@@ -222,8 +208,6 @@ def evaluate_model(model, val_loader, criterion, device):
     return val_loss, all_fake_preds, all_hate_preds, all_fake_labels, all_hate_labels
 ```
 
----
-
 ## 🚀 9. Model Initialization and Training Start
 Instantiate the model, define loss and optimizer, and begin training.
 
@@ -233,8 +217,6 @@ criterion = nn.CrossEntropyLoss()
 optimizer = torch.optim.AdamW(model.parameters(), lr=2e-5)
 train_model(model, train_loader, val_loader, criterion, optimizer)
 ```
-
----
 
 ## 📡 10. Making Predictions on a Single Tweet
 Function to predict whether a given tweet is fake and/or hate-filled.
@@ -256,8 +238,6 @@ def predict_tweet(model, tweet):
     return fake_pred, hate_pred
 ```
 
----
-
 ## 📝 11. Predicting on a Sample Tweet
 Example usage of the prediction function.
 
@@ -266,8 +246,6 @@ tweet = "This is a test tweet about politics."
 fake, hate = predict_tweet(model, tweet)
 print(f"Tweet: {tweet}\nPredicted Fake: {fake}, Predicted Hate: {hate}")
 ```
-
----
 
 📈 12. Final Predictions on Test Dataset
 Cleans test data, runs predictions, and saves them to `submit.csv.`
@@ -308,3 +286,6 @@ print("Predictions saved to submit.csv")
 Predictions are stored in `submit.csv`
 
 Ready for submission.
+
+# 🙌 Credits
+Built using 🤗 Transformers and PyTorch.
