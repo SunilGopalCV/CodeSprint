@@ -82,7 +82,7 @@ This `TweetDataset` class prepares the tweets and corresponding labels into the 
 
 ```python
 class TweetDataset(Dataset):
-    def __init__(self, texts, fake_labels, hate_labels, tokenizer, max_len=128):
+    def __init__(self, texts, fake_labels, hate_labels, tokenizer, max_len=64):
         self.encodings = tokenizer(list(texts), truncation=True, padding=True, max_length=max_len)
         self.fake_labels = list(fake_labels)
         self.hate_labels = list(hate_labels)
@@ -135,7 +135,7 @@ val_loader = DataLoader(val_dataset, batch_size=16)
 This function handles the model training loop, validation, and early stopping.
 
 ```python
-def train_model(model, train_loader, val_loader, criterion, optimizer, num_epochs=3, patience=3):
+def train_model(model, train_loader, val_loader, criterion, optimizer, num_epochs=1, patience=1):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model.to(device)
     best_val_loss = float('inf')
@@ -222,7 +222,7 @@ Instantiate the model, define loss and optimizer, and begin training.
 ```python
 model = HateBERTMultiTask()
 criterion = nn.CrossEntropyLoss()
-optimizer = torch.optim.AdamW(model.parameters(), lr=2e-5)
+optimizer = torch.optim.AdamW(model.parameters(), lr=1e-3)
 train_model(model, train_loader, val_loader, criterion, optimizer)
 ```
 
@@ -234,7 +234,7 @@ def predict_tweet(model, tweet):
     model.eval()
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model.to(device)
-    encoded = tokenizer(tweet, return_tensors='pt', truncation=True, padding=True, max_length=128)
+    encoded = tokenizer(tweet, return_tensors='pt', truncation=True, padding=True, max_length=64)
     input_ids = encoded['input_ids'].to(device)
     attention_mask = encoded['attention_mask'].to(device)
 
@@ -271,7 +271,7 @@ all_hate_preds = []
 
 with torch.no_grad():
     for tweet in test_df['Tweet']:
-        encoded = tokenizer(tweet, return_tensors='pt', truncation=True, padding=True, max_length=128)
+        encoded = tokenizer(tweet, return_tensors='pt', truncation=True, padding=True, max_length=64)
         input_ids = encoded['input_ids'].to(device)
         attention_mask = encoded['attention_mask'].to(device)
 
